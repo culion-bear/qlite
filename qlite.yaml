@@ -1,0 +1,33 @@
+#bind为监听的ip地址
+#其中，127.0.0.1为本地ip，同理localhost
+#若要监听值缺省，则键入0.0.0.0
+ip: 0.0.0.0
+
+#QLite的默认端口为5792
+#若要更换端口号，则在此处修改
+port: 5792
+
+#QLite默认的虚拟数据库为16个，最高可分配128个
+#但要初始化的数据库个数小于AOF持久化中虚拟数据库的个数，可能会导致数据的丢失
+database: 16
+
+#服务端的密码，初始为admin
+password: admin
+
+#AOF持久化时数据所存放的地址
+aof_path: etc/qlite/qlite.data
+
+#TCP连接所产生的信息日志存放地址
+log_path: etc/qlite/qlite.log
+
+stl_path: etc/qlite/qlite.stl
+
+#是否开启跨域
+cors: true
+
+#AOF持久化存储间隔，单位为S
+#若时间小于等于0，则进行实时存储，但对性能影响过高
+aof_interval: 30
+
+#TOKEN进行AES加密时所用到的密匙，为16位随机字符串
+token_key: 1234567890123456

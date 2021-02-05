@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+enum optionCode{
+  NO_ACTION = 0;
+  CREATE    = 1;
+  UPDATE    = 2;
+  DELETE    = 3;
+}
+
+message null{}
+
+message pong{
+  string msg=1;
+}
+
+message stlInfo{
+  string name=1;
+  bool isOrderly=2;
+}
+
+message apiDescription{
+  string name=1;
+  string info=2;
+}
+
+message apiList{
+  repeated apiDescription list=1;
+}
+
+message apiInfo{
+  bool isWriting=1;
+  int32 type=2;
+}
+
+message apiMap{
+  map<string,apiInfo> api=1;
+}
+
+message pendingMessage{
+  string id=1;
+  string opt=2;
+  bytes msg=3;
+  int64 time=4;
+}
+
+message result{
+  optionCode code=1;
+  string newId=2;
+  bytes msg=3;
+}
+
+message request{
+  repeated string id=1;
+  string opt=2;
+  bytes msg=3;
+}
+
+message response{
+  bytes msg=1;
+}
+
+service stl{
+  rpc ping(null) returns(pong);
+  rpc getInfo(null) returns(stlInfo);
+  rpc getApiMap(null) returns(apiMap);
+  rpc getApiDescriptionList(null) returns(apiList);
+  rpc submit(pendingMessage) returns(result);
+  rpc compute(request) returns(response);
+}

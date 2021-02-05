@@ -24,14 +24,23 @@ QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集�
 
 ## Install
 
-```shell script
-敬请期待
-```
+[linux-amd64](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-linux-amd64)
+
+[linux-arm64](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-linux-arm64)
+
+[windows](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-windows.exe)
 
 ## Usage
 
 ```shell script
-敬请期待
+windows
+qlite.exe -f [yaml path]
+```
+
+```shell script
+linux
+chmod 777 qlite
+./qlite -f [yaml path]
 ```
 
 ## 作者有话说

@@ -55,6 +55,14 @@ chmod 777 qlite
 
 [[click to download yaml file](./qlite.yaml)]
 
+## Related Efforts
+
+- STL
+    - [qlite-string](https://github.com/culion-bear/qlite-stl-string)
+
+- Other
+    - [go-qlite](https://github.com/culion-bear/go-qlite)
+
 ## 快速开始
 
 [API文档](./doc/api.md)

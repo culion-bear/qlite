@@ -1,5 +1,9 @@
 ![](./qlite.png)
 # QLite [[English Document](./README_EN.md)]
+
+![](https://img.shields.io/badge/go-V1.14.3-brightgreen.svg)
+![](https://img.shields.io/badge/release-V2.1.1-blue.svg)
+
 QLite 是基于微服务的 NewSQL 型数据库系统，与传统的一体化数据库不同，该系统将本该内置的多种数据结构（STL）拆分成多个服务模块，每个模块都是独立的一个节点，每个节点都与其主网关进行连接，从而形成分布式存储结构。
 
 QLite 主要存储方式为KV存储，主网关内置Hash结构，如同关系型数据报表，可存储已加载（连接）至主网关的所有数据结构。

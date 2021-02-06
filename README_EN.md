@@ -2,6 +2,9 @@
 # QLite [[中文文档](./README.md)]
 > from YouDao translate
 
+![](https://img.shields.io/badge/go-V1.14.3-brightgreen.svg)
+![](https://img.shields.io/badge/release-V2.1.1-blue.svg)
+
 QLite is a NewSQL database system based on micro-services. Different from the traditional integrated database, this system divides the built-in multiple data structures (STL) into multiple service modules. Each module is an independent node, and each node is connected with its main gateway, thus forming a distributed storage structure.
 
 The main storage mode of QLite is KV storage. The main gateway has a built-in Hash structure, like relational data reports, which can store all the data structures that have been loaded (connected) to the main gateway.

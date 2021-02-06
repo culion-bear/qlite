@@ -37,13 +37,13 @@
 
 假设主机IP为127.0.0.1,端口号为5792
 
-则客户端需访问该数据库时，应输入url为http://127.0.0.1:5792
+则客户端需访问该数据库时，应输入url为`http://127.0.0.1:5792`
 
-但若开启跨域，则url应为http://127.0.0.1:5792/cors
+但若开启跨域，则url应为`http://127.0.0.1:5792/cors`
 
-另注意，除了登录（login）以及ping指令外，其余指令的url起始为http://127.0.0.1:5792/token或http://127.0.0.1:5792/cors/token并为请求携带token
+另注意，除了登录（login）以及ping指令外，其余指令的url起始为`http://127.0.0.1:5792/token`或`http://127.0.0.1:5792/cors/token`并为请求携带token
 
-token密钥携带方法为：HEAD[Authorization]="Bearer {token}"
+token密钥携带方法为：`HEAD[Authorization]="Bearer {token}"`
 
 如需POST访问，则文本协议均为JSON（**自定义服务模块除外**）
 
@@ -127,7 +127,7 @@ url += /hash
 
 由于Hash类型像操作系统中的文件夹，可以在Hash中放置新的Hash，以至于可以出现树状查询及存储操作，若要实现该功能，仅需在url末尾加入一段路径（path）
 
-假如在数据库0中有类别为hash的键值k1,k1中存储类别为hash的键值k2,k2存储一个键值为k3的元素，若要获取到k3的类别，仅需POST该url：http://127.0.0.1:5792/token/hash/type/k1/k2,请求体中key为k3，详情请访问[type](./api.md#获取元素类别)
+假如在数据库0中有类别为hash的键值k1,k1中存储类别为hash的键值k2,k2存储一个键值为k3的元素，若要获取到k3的类别，仅需POST该url：`http://127.0.0.1:5792/token/hash/type/k1/k2` , 请求体中key为k3，详情请访问[type](./api.md#获取元素类别)
 
 ### 添加数据
 - [POST]

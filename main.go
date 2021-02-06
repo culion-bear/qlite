@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	flags "flag"
@@ -8,11 +9,14 @@ import (
 	"github.com/kataras/iris/v12"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
+	"os"
+	"os/signal"
 	"qlite/hash"
 	"qlite/network"
 	"qlite/persistence"
 	api "qlite/stl"
 	"syscall"
+	"time"
 )
 
 func init(){
@@ -167,11 +171,32 @@ func restoreDatabase(msg persistence.Data){
 	}
 }
 
+func kill(handle *iris.Application){
+	ch := make(chan os.Signal, 1)
+	signal.Notify(
+		ch,
+		os.Interrupt,
+		syscall.SIGINT,
+		os.Kill,
+		syscall.SIGKILL,
+		syscall.SIGTERM,
+	)
+	select {
+	case <-ch:
+		println("wait...")
+		network.AofHandle.Close()
+		timeout := 5 * time.Second
+		ctx, cancel := context.WithTimeout(context.Background(), timeout)
+		defer cancel()
+		_ = handle.Shutdown(ctx)
+	}
+}
+
 func main(){
 	fmt.Println(logo)
 	if version||help{
 		if version{
-			fmt.Println("V 2.0.1 BETA")
+			fmt.Println(network.Version)
 		}
 		if help{
 			flags.PrintDefaults()
@@ -181,5 +206,6 @@ func main(){
 	c := toConfig()
 	initConfig(c)
 	handle := network.IrisInit(c.CORS)
-	_ = handle.Run(iris.Addr(fmt.Sprintf("%s:%d",c.IP,c.Port)))
+	go kill(handle)
+	_ = handle.Run(iris.Addr(fmt.Sprintf("%s:%d",c.IP,c.Port)), iris.WithoutInterruptHandler)
 }

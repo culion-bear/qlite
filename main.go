@@ -74,11 +74,18 @@ func fileWriteError(name string,err error){
 	fmt.Println("[ERROR] FILE:",name,err)
 }
 
-func restoreStl(url string){
+func restoreStl(url string) bool{
 	err := api.NewService(url)
+	//if err != nil{
+	//	panic(err)
+	//}
 	if err != nil{
-		panic(err)
+		var r string
+		fmt.Printf("[%s ERROR CONNECT](%s) would you want to connect again ? [y/N] :",url,err.Error())
+		_, _ = fmt.Scan(&r)
+		return r == "y"
 	}
+	return false
 }
 
 func restoreDatabase(msg persistence.Data){

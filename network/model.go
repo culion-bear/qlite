@@ -16,7 +16,7 @@ const(
 	Success    = 200
 )
 
-const Version = "V 2.0.2"
+const Version = "V 2.1.1"
 
 var(
 	AofHandle *persistence.AofManager

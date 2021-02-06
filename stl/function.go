@@ -74,10 +74,16 @@ func (handle *stlServiceInfo) restart() {
 			fmt.Printf("[%s]第%d次重连失败...\n",handle.url,sum)
 			time.Sleep(time.Second*5)
 		}else{
-			fmt.Printf("[%s]第%d次重连成功\n",handle.url,sum)
 			handle.handle = NewStlClient(conn)
-			go handle.toHealth()
-			return
+			_,err = handle.handle.Ping(context.Background(),&Null{})
+			if err != nil{
+				fmt.Printf("[%s]第%d次重连失败...\n",handle.url,sum)
+				time.Sleep(time.Second*5)
+			}else{
+				fmt.Printf("[%s]第%d次重连成功\n",handle.url,sum)
+				go handle.toHealth()
+				return
+			}
 		}
 	}
 }

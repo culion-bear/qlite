@@ -15,6 +15,12 @@ QLite before release to the lot has experienced two versions, respectively is TC
 
 ## Change Log
 
+### V 2.1.1
+
+- Resolved the BUG where the service module reconnect failed but no error was reported
+
+- Optimized service connection operation at gateway startup, giving consumers the option to reconnect if the connection fails rather than simply cancel the startup
+
 ### V 2.0.2
 - Optimized graceful service shutdown (CTRL +C), solved the BUG that data could not be stored locally in time when service shutdown
 

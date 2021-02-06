@@ -28,7 +28,7 @@ func (handle *StlManager) Write(url string){
 	handle.writer.Write(url+"\n")
 }
 
-func (handle *StlManager) Read(p func(string)) error{
+func (handle *StlManager) Read(p func(string) bool) error{
 	f,err:=os.Open(handle.path)
 	if err!=nil{
 		return err
@@ -43,7 +43,7 @@ func (handle *StlManager) Read(p func(string)) error{
 		if err != nil{
 			return err
 		}
-		p(string(buf))
+		for p(string(buf)){}
 	}
 	return nil
 }

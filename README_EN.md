@@ -42,9 +42,9 @@ QLite before release to the lot has experienced two versions, respectively is TC
 
 ## Install
 
-[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.0.2/qlite-linux-amd64)
+[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.1.1/qlite-linux-amd64)
 
-[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.0.2/qlite-linux-arm64)
+[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.1.1/qlite-linux-arm64)
 
 [windows-2.0.1-BETA](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-windows.exe)
 

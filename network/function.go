@@ -79,7 +79,7 @@ func Ping(ctx iris.Context){
 func Info(ctx iris.Context){
 	sendNormalMessage(ctx,map[string]interface{}{
 		"code":Success,
-		"version":"V2.0.1 BETA",
+		"version":Version,
 	})
 }
 

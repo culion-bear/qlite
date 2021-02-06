@@ -16,6 +16,8 @@ const(
 	Success    = 200
 )
 
+const Version = "V 2.0.2"
+
 var(
 	AofHandle *persistence.AofManager
 	LogHandle *persistence.LogManager

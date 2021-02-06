@@ -30,11 +30,11 @@ QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集�
 
 ## Install
 
-[linux-amd64](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-linux-amd64)
+[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.0.2/qlite-linux-amd64)
 
-[linux-arm64](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-linux-arm64)
+[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.0.2/qlite-linux-arm64)
 
-[windows](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-windows.exe)
+[windows-2.0.1-BETA](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-windows.exe)
 
 ## Usage
 

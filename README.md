@@ -49,7 +49,7 @@ chmod 777 qlite
 ./qlite -f [yaml path]
 ```
 
-[[click to yaml file](./qlite.yaml)]
+[[click to download yaml file](./qlite.yaml)]
 
 ## 快速开始
 

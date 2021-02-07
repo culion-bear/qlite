@@ -66,4 +66,5 @@ service stl{
   rpc getApiDescriptionList(null) returns(apiList);
   rpc submit(pendingMessage) returns(result);
   rpc compute(request) returns(response);
+  rpc flush(null) returns(null);
 }

@@ -191,11 +191,14 @@ func kill(handle *iris.Application){
 	select {
 	case <-ch:
 		println("wait...")
-		network.AofHandle.Close()
 		timeout := 5 * time.Second
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 		_ = handle.Shutdown(ctx)
+		network.AofHandle.Close()
+		network.LogHandle.Close()
+		network.StlHandle.Close()
+		api.Flush()
 	}
 }
 

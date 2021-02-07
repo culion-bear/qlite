@@ -54,6 +54,12 @@ func NewService(url string) error{
 	return nil
 }
 
+func Flush(){
+	for _,v := range servers{
+		_,_ = v.handle.Flush(context.Background(),&Null{})
+	}
+}
+
 func (handle *stlServiceInfo) toHealth() {
 	for true{
 		time.Sleep(time.Second*15)

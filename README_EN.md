@@ -83,6 +83,23 @@ chmod 777 qlite
 
 [API Document](./doc/api.md)
 
+## Future
+
+- product
+
+    - VLite(QLite visualization solution, under test)
+    - Blite (QLite Centralized Distributed Cluster Solution, under negotiation)
+    - QLite-Cli (QLite command line client)
+    - Glite (Go QLite-ORM)
+    -Xlite (ORM in other languages)
+- Optimized/Unfinished features
+    - Multi-module partitioning of service nodes. The main gateway will carry the key to access the service, so that multiple gateways can access the same service node without causing data clutter
+    - Encrypted service node that initializes the password on the main gateway join, carries it on each access, and the Token
+    - Qlite with daemon
+    - Child process start, shut down, restart parent process
+- other
+    - Docker one-click deployment
+
 ## Other
 
 This project is currently in the testing stage, there must be some bugs, and there must be a lot of optimization aspects, I hope interested brothers can improve this project together. If you have better ideas to give me feedback, I will check them in time.

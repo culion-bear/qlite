@@ -26,7 +26,7 @@ func GetStlList() []map[string]interface{}{
 	return stl
 }
 
-func NewService(url string) error{
+func NewService(url string,password string) error{
 	conn,err := grpc.Dial(url,grpc.WithInsecure())
 	if err != nil{
 		return err
@@ -39,7 +39,16 @@ func NewService(url string) error{
 	if _,flag := servers[serviceInfo.GetName()];flag{
 		return ErrServiceExist
 	}
-	apiMap,err := client.GetApiMap(context.Background(),&Null{})
+	result,err := client.Login(context.Background(),&User{
+		Password:             password,
+	})
+	if err != nil{
+		return err
+	}
+	if result.GetCode() != 200{
+		return ErrServiceToken
+	}
+	apiMap,err := client.GetApiMap(context.Background(),&Null{Token:result.GetToken()})
 	if err != nil{
 		return err
 	}
@@ -48,6 +57,7 @@ func NewService(url string) error{
 		handle:client,
 		isOrderly:serviceInfo.GetIsOrderly(),
 		apiMap:apiMap.GetApi(),
+		token:result.GetToken(),
 	}
 	servers[serviceInfo.GetName()] = clientHandle
 	go clientHandle.toHealth()
@@ -56,7 +66,7 @@ func NewService(url string) error{
 
 func Flush(){
 	for _,v := range servers{
-		_,_ = v.handle.Flush(context.Background(),&Null{})
+		_,_ = v.handle.Flush(context.Background(),&Null{Token:v.token})
 	}
 }
 
@@ -120,7 +130,7 @@ func (handle *stlServiceInfo) GetApiInfo(key string) (ApiInfo,error){
 }
 
 func (handle *stlServiceInfo) GetApiDescriptionList() ([]*ApiDescription,error){
-	result,err := handle.handle.GetApiDescriptionList(context.Background(),&Null{})
+	result,err := handle.handle.GetApiDescriptionList(context.Background(),&Null{Token:handle.token})
 	if err != nil{
 		return nil,err
 	}
@@ -128,9 +138,11 @@ func (handle *stlServiceInfo) GetApiDescriptionList() ([]*ApiDescription,error){
 }
 
 func (handle *stlServiceInfo) Submit(msg *PendingMessage) (*Result,error){
+	msg.Token = handle.token
 	return handle.handle.Submit(context.Background(),msg)
 }
 
 func (handle *stlServiceInfo) Compute(msg *Request) (*Response,error){
+	msg.Token = handle.token
 	return handle.handle.Compute(context.Background(),msg)
 }

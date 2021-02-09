@@ -74,18 +74,38 @@ func fileWriteError(name string,err error){
 	fmt.Println("[ERROR] FILE:",name,err)
 }
 
-func restoreStl(url string) bool{
-	err := api.NewService(url)
-	//if err != nil{
-	//	panic(err)
-	//}
+func restoreStl(buf []byte) interface{}{
+	var msg network.StlUrl
+	err := json.Unmarshal(buf,&msg)
 	if err != nil{
-		var r string
-		fmt.Printf("[%s ERROR CONNECT](%s) would you want to connect again ? [y/N] :",url,err.Error())
-		_, _ = fmt.Scan(&r)
-		return r == "y"
+		fmt.Printf("[STL JSON ERROR READ]%s",err.Error())
+		os.Exit(1)
 	}
-	return false
+	err = api.NewService(msg.Url,msg.Password)
+	if err == nil{
+		return nil
+	}
+	ok := false
+	for true{
+		var r string
+		fmt.Printf("[%s ERROR CONNECT](%s) would you want to connect again ? [y/N] :",msg.Url,err.Error())
+		_, _ = fmt.Scan(&r)
+		if !(r == "y" || r == "Y"){
+			return nil
+		}
+		if ok = err == api.ErrServiceToken;ok{
+			fmt.Printf("[%s] scan password again:",msg.Url)
+			_,_ = fmt.Scan(&msg.Password)
+		}
+		err = api.NewService(msg.Url,msg.Password)
+		if err == nil{
+			break
+		}
+	}
+	if ok{
+		return msg
+	}
+	return nil
 }
 
 func restoreDatabase(msg persistence.Data){

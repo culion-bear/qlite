@@ -9,6 +9,7 @@ var(
 	ErrApiType		= errors.New("api type is not compare")
 	ErrServiceType	= errors.New("service type is not compare")
 	ErrIDEmpty		= errors.New("id is empty")
+	ErrServiceToken	= errors.New("password error")
 )
 
 const(
@@ -21,6 +22,7 @@ type stlServiceInfo struct {
 	handle		StlClient
 	isOrderly	bool
 	apiMap		map[string]*ApiInfo
+	token		string
 }
 
-var servers map[string]*stlServiceInfo = make(map[string]*stlServiceInfo)
+var servers = make(map[string]*stlServiceInfo)

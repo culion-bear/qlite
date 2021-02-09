@@ -113,7 +113,7 @@ func Join(ctx iris.Context){
 		sendError(ctx,ErrJson,err.Error())
 		return
 	}
-	err := api.NewService(msg.Url)
+	err := api.NewService(msg.Url,msg.Password)
 	if err != nil{
 		sendError(ctx,ErrService,err.Error())
 		return
@@ -121,7 +121,7 @@ func Join(ctx iris.Context){
 	sendNormalMessage(ctx,map[string]interface{}{
 		"code":Success,
 	})
-	go StlHandle.Write(msg.Url)
+	go StlHandle.Write(msg)
 }
 
 func Database(ctx iris.Context){

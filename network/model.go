@@ -49,6 +49,7 @@ type Error struct {
 
 type StlUrl struct {
 	Url			string		`json:"url"`
+	Password	string		`json:"password,omitempty"`
 }
 
 //type SetModel struct {

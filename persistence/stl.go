@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"bufio"
+	"encoding/json"
 	"io"
 	"os"
 )
@@ -24,17 +25,20 @@ func (handle *StlManager) Close(){
 	handle.writer.Close()
 }
 
-func (handle *StlManager) Write(url string){
-	handle.writer.Write(url+"\n")
+func (handle *StlManager) Write(v interface{}){
+	buf,_ := json.Marshal(v)
+	handle.writer.Write(string(buf)+"\n")
 }
 
-func (handle *StlManager) Read(p func(string) bool) error{
-	f,err:=os.Open(handle.path)
+func (handle *StlManager) Read(p func([]byte) interface{}) error{
+	f,err:=os.OpenFile(handle.path,os.O_RDWR,os.ModePerm)
 	if err!=nil{
 		return err
 	}
 	defer f.Close()
 	rf := bufio.NewReader(f)
+	ok := false
+	msg := make([][]byte,0)
 	for true{
 		buf,_,err := rf.ReadLine()
 		if err == io.EOF{
@@ -43,7 +47,16 @@ func (handle *StlManager) Read(p func(string) bool) error{
 		if err != nil{
 			return err
 		}
-		for p(string(buf)){}
+		v := p(buf)
+		if ok = v != nil;ok{
+			buf,_ = json.Marshal(v)
+		}
+		msg = append(msg, buf)
+	}
+	if ok{
+		for _,v := range msg{
+			_,_ = f.WriteString(string(v)+"\n")
+		}
 	}
 	return nil
 }

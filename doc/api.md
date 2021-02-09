@@ -101,6 +101,7 @@ url += /service
 - /join
 - 请求体
     - url:string //服务模块地址
+    - password:string //服务密码
 - 响应体
     - code:200
 ### 选择数据库

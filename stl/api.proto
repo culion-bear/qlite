@@ -72,9 +72,14 @@ message key{
   string token    = 2;
 }
 
+message flag{
+  bool ok         = 1;
+}
+
 service stl{
   rpc ping(null)                  returns (pong);
   rpc login(user)                 returns (key);
+  rpc exists(user)                returns (flag);
   rpc getInfo(null)               returns (stlInfo);
   rpc getApiMap(null)             returns (apiMap);
   rpc getApiDescriptionList(null) returns (apiList);

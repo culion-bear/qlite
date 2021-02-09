@@ -44,7 +44,7 @@ func (handle *AofManager) Write(msg Data){
 }
 
 func (handle *AofManager) Read(p func(Data)) error{
-	f,err:=os.Open(handle.path)
+	f,err:=os.OpenFile(handle.path,os.O_RDONLY,os.ModePerm)
 	if err!=nil{
 		return err
 	}
@@ -66,4 +66,40 @@ func (handle *AofManager) Read(p func(Data)) error{
 		p(v)
 	}
 	return nil
+}
+
+type AofRestoreManager struct {
+	path string
+}
+
+func NewAofRestoreHandle(fileName string) *AofRestoreManager{
+	return &AofRestoreManager{path:fileName}
+}
+
+func (handle *AofRestoreManager) GetList(name string) ([]Data,error){
+	f,err:=os.OpenFile(handle.path,os.O_RDONLY,os.ModePerm)
+	if err!=nil{
+		return nil,err
+	}
+	defer f.Close()
+	l := make([]Data,0)
+	rf := bufio.NewReader(f)
+	for true{
+		buf,_,err := rf.ReadLine()
+		if err == io.EOF{
+			break
+		}
+		if err != nil{
+			return nil,err
+		}
+		var v Data
+		err = json.Unmarshal(buf,&v)
+		if err != nil{
+			return nil,err
+		}
+		if v.Type == name{
+			l = append(l, v)
+		}
+	}
+	return l,nil
 }

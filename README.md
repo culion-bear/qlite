@@ -2,7 +2,7 @@
 # QLite [[English Document](./README_EN.md)]
 
 ![](https://img.shields.io/badge/go-V1.14.3-brightgreen.svg)
-![](https://img.shields.io/badge/release-V2.2.1-blue.svg)
+![](https://img.shields.io/badge/release-v2.2.2-blue.svg)
 
 QLite 是基于微服务的 NewSQL 型数据库系统，与传统的一体化数据库不同，该系统将本该内置的多种数据结构（STL）拆分成多个服务模块，每个模块都是独立的一个节点，每个节点都与其主网关进行连接，从而形成分布式存储结构。
 
@@ -16,6 +16,10 @@ QLite 主要存储方式为KV存储，主网关内置Hash结构，如同关系�
 QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集成版，效果皆不是很理想，该版本为分布式版本，采用HTTP作为接口交互协议，将信息处理完全交给了应用层，在损失了一定的性能的前提下提高了扩展性和复用性，更方便从业人员进行数据处理。
 
 ## Change Log
+
+### V 2.2.2
+- 作者用命来更新啦
+- 找到了个极其严重的BUG，当服务节点崩溃重启后，当网关重新连接服务节点时，数据会全部丢失，除非网关重启动。当然，作者发现后给修复了，但还是需要优化。
 
 ### V 2.2.1
 - 重大更新！
@@ -49,9 +53,9 @@ QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集�
 
 ## Install
 
-[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.1/qlite-linux-amd64)
+[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.2/qlite-linux-amd64)
 
-[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.1/qlite-linux-arm64)
+[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.2/qlite-linux-arm64)
 
 [windows-2.0.1-BETA](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-windows.exe)
 

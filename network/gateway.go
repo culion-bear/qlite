@@ -4,9 +4,12 @@ import (
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/core/router"
+	"math/rand"
+	"time"
 )
 
 func init(){
+	rand.Seed(time.Now().Unix())
 	lTime.Start()
 }
 

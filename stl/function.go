@@ -2,10 +2,17 @@ package api
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"google.golang.org/grpc"
+	"qlite/hash"
+	"qlite/persistence"
 	"time"
 )
+
+func init(){
+	lTime.Start()
+}
 
 func Service(name string) (*stlServiceInfo,error){
 	v,flag := servers[name]
@@ -53,11 +60,13 @@ func NewService(url string,password string) error{
 		return err
 	}
 	clientHandle := &stlServiceInfo{
-		url:url,
-		handle:client,
-		isOrderly:serviceInfo.GetIsOrderly(),
-		apiMap:apiMap.GetApi(),
-		token:result.GetToken(),
+		url:		url,
+		name:		serviceInfo.GetName(),
+		handle:		client,
+		isOrderly:	serviceInfo.GetIsOrderly(),
+		apiMap:		apiMap.GetApi(),
+		token:		result.GetToken(),
+		flag:		false,
 	}
 	servers[serviceInfo.GetName()] = clientHandle
 	go clientHandle.toHealth()
@@ -86,21 +95,83 @@ func (handle *stlServiceInfo) restart() {
 	for true{
 		sum ++
 		conn,err := grpc.Dial(handle.url,grpc.WithInsecure())
-		if err != nil{
-			fmt.Printf("[%s]第%d次重连失败...\n",handle.url,sum)
-			time.Sleep(time.Second*5)
-		}else{
+		if err == nil{
 			handle.handle = NewStlClient(conn)
 			_,err = handle.handle.Ping(context.Background(),&Null{})
-			if err != nil{
-				fmt.Printf("[%s]第%d次重连失败...\n",handle.url,sum)
-				time.Sleep(time.Second*5)
-			}else{
-				fmt.Printf("[%s]第%d次重连成功\n",handle.url,sum)
+			if err == nil{
+				fmt.Printf("(%s)[%s]第%d次重连成功\n",handle.name,handle.url,sum)
+				handle.Restore()
 				go handle.toHealth()
 				return
 			}
 		}
+		fmt.Printf("(%s)[%s]第%d次重连失败...\n",handle.name,handle.url,sum)
+		time.Sleep(time.Second*5)
+	}
+}
+
+func (handle *stlServiceInfo) Restore(){
+	handle.lock()
+	defer handle.unlock()
+	flag,err := handle.handle.Exists(context.Background(),&User{
+		Password:             handle.token,
+	})
+	if err != nil || flag.GetOk(){
+		return
+	}
+	fHandle := persistence.NewAofRestoreHandle(AofPath)
+	l,err := fHandle.GetList(handle.name)
+	if err != nil{
+		fmt.Printf("(%s)[%s]数据库文件读取失败：%s\n",handle.name,handle.url,err.Error())
+		return
+	}
+	for _,v := range l{
+		handle.restoreData(v)
+	}
+}
+
+func (handle *stlServiceInfo) restoreData(msg persistence.Data){
+	t := lTime.GetTime()
+	if msg.Time > 0 && msg.BeginTime + msg.Time < t{
+		return
+	}
+	if msg.Time <= 0{
+		t = 0
+	}else{
+		t = msg.Time + msg.BeginTime - t
+	}
+	base,err := hash.ToNode(msg.Database,msg.Path)
+	if err != nil{
+		fmt.Println("[ERROR]DATABASE:",err)
+		return
+	}
+	id,err := base.GetNodeID(msg.Key)
+	if err != nil{
+		fmt.Println("[WAINING]GET_NODE_ID:",err)
+	}
+	opt,_ := json.Marshal(&msg.Detail)
+	result,err := handle.handle.Submit(context.Background(),&PendingMessage{
+		Id:                   id,
+		Opt:                  msg.Option,
+		Msg:                  opt,
+		Time:                 msg.BeginTime,
+		Token:				  handle.token,
+	})
+	if err != nil{
+		fmt.Println("[ERROR]RESULT:",err)
+		return
+	}
+	switch result.GetCode() {
+	case OptionCode_CREATE:
+		if result.GetNewId() == ""{
+			fmt.Println("[ERROR]OPTION_CODE_CREATE:","NEW_ID_IS_EMPTY")
+			return
+		}
+		base.SetX(hash.NewOtherNode(result.GetNewId(),msg.Key,msg.Type,t))
+	case OptionCode_DELETE:
+		base.Del([]string{msg.Key})
+	default:
+		break
 	}
 }
 
@@ -138,11 +209,35 @@ func (handle *stlServiceInfo) GetApiDescriptionList() ([]*ApiDescription,error){
 }
 
 func (handle *stlServiceInfo) Submit(msg *PendingMessage) (*Result,error){
+	if handle.isLock(){
+		return &Result{},ErrRestore
+	}
 	msg.Token = handle.token
 	return handle.handle.Submit(context.Background(),msg)
 }
 
 func (handle *stlServiceInfo) Compute(msg *Request) (*Response,error){
+	if handle.isLock(){
+		return &Response{},ErrRestore
+	}
 	msg.Token = handle.token
 	return handle.handle.Compute(context.Background(),msg)
+}
+
+func (handle *stlServiceInfo) lock(){
+	handle.mu.Lock()
+	defer handle.mu.Unlock()
+	handle.flag = true
+}
+
+func (handle *stlServiceInfo) unlock(){
+	handle.mu.Lock()
+	defer handle.mu.Unlock()
+	handle.flag = false
+}
+
+func (handle *stlServiceInfo) isLock() bool{
+	handle.mu.RLock()
+	defer handle.mu.RUnlock()
+	return handle.flag
 }

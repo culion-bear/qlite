@@ -3,16 +3,10 @@ package network
 import (
 	"encoding/json"
 	"github.com/kataras/iris/v12"
-	"math/rand"
 	"qlite/hash"
 	"qlite/persistence"
 	"qlite/stl"
-	"time"
 )
-
-func init(){
-	rand.Seed(time.Now().Unix())
-}
 
 func setReadLog(ctx iris.Context){
 	LogHandle.Write(ctx.Path(),persistence.INFO,persistence.READ)
@@ -574,16 +568,6 @@ func StlApi(ctx iris.Context){
 				sendError(ctx, ErrService, err.Error())
 				return
 			}
-		case api.OptionCode_UPDATE:
-			//if result.GetNewId() == ""{
-			//	sendError(ctx,ErrService,api.ErrIDEmpty.Error())
-			//	return
-			//}
-			//err = base.UpdateNodeID(msg.Key,result.GetNewId())
-			//if err != nil{
-			//	sendError(ctx,ErrService,err.Error())
-			//	return
-			//}
 		case api.OptionCode_DELETE:
 			base.Del([]string{msg.Key})
 		}

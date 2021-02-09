@@ -45,9 +45,10 @@ func initConfig(c config){
 	if len(c.TokenKey) != 16{
 		panic(errors.New("token key length must be 16"))
 	}
-	if c.Database <= 0 ||c.Database >= 256{
+	if c.Database <= 0 ||c.Database >= 128{
 		panic(errors.New("database num is error"))
 	}
+	api.AofPath = c.AofPath
 	network.AofHandle = persistence.NewAofHandle(c.AofPath,c.AofInterval,fileWriteError)
 	network.LogHandle = persistence.NewLogHandle(c.LogPath,fileWriteError)
 	network.StlHandle = persistence.NewStlHandle(c.StlPath,fileWriteError)
@@ -180,16 +181,6 @@ func restoreDatabase(msg persistence.Data){
 				fmt.Println("[ERROR]OPTION_CODE_CREATE:",err)
 				return
 			}
-		case api.OptionCode_UPDATE:
-			//if result.GetNewId() == ""{
-			//	fmt.Println("[ERROR]OPTION_CODE_UPDATE:","NEW_ID_IS_EMPTY")
-			//	return
-			//}
-			//err = base.UpdateNodeID(msg.Key,result.GetNewId())
-			//if err != nil{
-			//	fmt.Println("[ERROR]OPTION_CODE_UPDATE:",err)
-			//	return
-			//}
 		case api.OptionCode_DELETE:
 			base.Del([]string{msg.Key})
 		default:

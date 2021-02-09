@@ -3,7 +3,7 @@
 > from YouDao translate
 
 ![](https://img.shields.io/badge/go-V1.14.3-brightgreen.svg)
-![](https://img.shields.io/badge/release-v2.2.1-blue.svg)
+![](https://img.shields.io/badge/release-v2.2.2-blue.svg)
 
 QLite is a NewSQL database system based on micro-services. Different from the traditional integrated database, this system divides the built-in multiple data structures (STL) into multiple service modules. Each module is an independent node, and each node is connected with its main gateway, thus forming a distributed storage structure.
 
@@ -17,6 +17,12 @@ The system is equipped with lightweight QLite-STL development framework, you can
 QLite before release to the lot has experienced two versions, respectively is TCP version and integration edition, the effect is not very ideal, this version is distributed version, using HTTP as the interface communication protocol, the information processing to the application layer, completely lost in the premise of certain performance improves the extensibility and reusability, more convenient from personnel of course of data processing.
 
 ## Change Log
+
+### V 2.2.2
+
+- The author is trying to update it
+
+- A very serious BUG was found, when a service node crashes and restarts, when the gateway reconnects to the service node, all the data will be lost unless the gateway is restarted. Of course, the author found it and fixed it, but it still needs to be optimized.
 
 ### V 2.2.1
 - Major updates!
@@ -61,9 +67,9 @@ QLite before release to the lot has experienced two versions, respectively is TC
 
 ## Install
 
-[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.1/qlite-linux-amd64)
+[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.2/qlite-linux-amd64)
 
-[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.1/qlite-linux-arm64)
+[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.2/qlite-linux-arm64)
 
 [windows-2.0.1-BETA](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-windows.exe)
 

@@ -106,8 +106,9 @@ chmod 777 qlite
 - Optimized/Unfinished features
     - [√]  Multi-module partitioning of service nodes. The main gateway will carry the key to access the service, so that multiple gateways can access the same service node without causing data clutter
     - [√]  Encrypted service node that initializes the password on the main gateway join, carries it on each access, and the Token
-    - Qlite with daemon
+    - QLite with daemon
     - Child process start, shut down, restart parent process
+    - Data loss of built-in nodes when the service node crashes
 - other
     - Docker one-click deployment
 

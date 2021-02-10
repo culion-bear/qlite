@@ -73,6 +73,10 @@ func (handle *WriteManager) Flush(){
 	}
 }
 
+func (handle *WriteManager) toFlush(){
+	handle.flushChan<-true
+}
+
 func (handle *WriteManager) Run(){
 	file,err := os.OpenFile(handle.fileName,os.O_RDWR|os.O_APPEND|os.O_CREATE,0666)
 	if err != nil{

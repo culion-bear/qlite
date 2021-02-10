@@ -48,21 +48,20 @@ func initConfig(c config){
 	if c.Database <= 0 ||c.Database >= 128{
 		panic(errors.New("database num is error"))
 	}
-	api.AofPath = c.AofPath
-	network.AofHandle = persistence.NewAofHandle(c.AofPath,c.AofInterval,fileWriteError)
-	network.LogHandle = persistence.NewLogHandle(c.LogPath,fileWriteError)
-	network.StlHandle = persistence.NewStlHandle(c.StlPath,fileWriteError)
+	api.AofHandle = persistence.NewAofHandle(c.AofPath,c.AofInterval,fileWriteError)
+	api.LogHandle = persistence.NewLogHandle(c.LogPath,fileWriteError)
+	api.StlHandle = persistence.NewStlHandle(c.StlPath,fileWriteError)
 	network.Password  = c.Password
 	network.TokenKey  = c.TokenKey
 	err := hash.HashInit(c.Database)
 	if err != nil{
 		panic(err)
 	}
-	err = network.StlHandle.Read(restoreStl)
+	err = api.StlHandle.Read(restoreStl)
 	if err != nil{
 		panic(err)
 	}
-	err = network.AofHandle.Read(restoreDatabase)
+	err = api.AofHandle.Read(restoreDatabase)
 	if err != nil{
 		panic(err)
 	}
@@ -189,6 +188,10 @@ func restoreDatabase(msg persistence.Data){
 	}
 }
 
+func setVersion(v string){
+	network.Version = v
+}
+
 func kill(handle *iris.Application){
 	ch := make(chan os.Signal, 1)
 	signal.Notify(
@@ -202,9 +205,9 @@ func kill(handle *iris.Application){
 	select {
 	case <-ch:
 		println("wait...")
-		network.AofHandle.Close()
-		network.LogHandle.Close()
-		network.StlHandle.Close()
+		api.AofHandle.Close()
+		api.LogHandle.Close()
+		api.StlHandle.Close()
 		api.Flush()
 		timeout := 5 * time.Second
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -214,6 +217,7 @@ func kill(handle *iris.Application){
 }
 
 func main(){
+	setVersion("V 2.2.3")
 	fmt.Println(logo)
 	if version||help{
 		if version{

@@ -68,15 +68,7 @@ func (handle *AofManager) Read(p func(Data)) error{
 	return nil
 }
 
-type AofRestoreManager struct {
-	path string
-}
-
-func NewAofRestoreHandle(fileName string) *AofRestoreManager{
-	return &AofRestoreManager{path:fileName}
-}
-
-func (handle *AofRestoreManager) GetList(name string) ([]Data,error){
+func (handle *AofManager) Restore(name string) ([]Data,error){
 	f,err:=os.OpenFile(handle.path,os.O_RDONLY,os.ModePerm)
 	if err!=nil{
 		return nil,err
@@ -102,4 +94,8 @@ func (handle *AofRestoreManager) GetList(name string) ([]Data,error){
 		}
 	}
 	return l,nil
+}
+
+func (handle *AofManager) Flush(){
+	handle.writer.toFlush()
 }

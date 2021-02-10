@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/kataras/iris/v12"
 	"qlite/localTime"
-	"qlite/persistence"
 )
 
 const(
@@ -16,13 +15,7 @@ const(
 	Success    = 200
 )
 
-const Version = "V 2.1.2"
-
-var(
-	AofHandle *persistence.AofManager
-	LogHandle *persistence.LogManager
-	StlHandle *persistence.StlManager
-)
+var Version = "V 2.2.3"
 
 var(
 	ErrKeyEmpty = errors.New("key is empty")
@@ -51,12 +44,6 @@ type StlUrl struct {
 	Url			string		`json:"url"`
 	Password	string		`json:"password,omitempty"`
 }
-
-//type SetModel struct {
-//	Key			string	`json:"key"`
-//	Type		string	`json:"type"`
-//	Time		int64	`json:"time"`
-//}
 
 type KeyList struct {
 	Keys		[]string	`json:"keys"`

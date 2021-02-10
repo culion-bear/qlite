@@ -9,12 +9,12 @@ import (
 )
 
 func setReadLog(ctx iris.Context){
-	LogHandle.Write(ctx.Path(),persistence.INFO,persistence.READ)
+	api.LogHandle.Write(ctx.Path(),persistence.INFO,persistence.READ)
 	ctx.Next()
 }
 
 func sendMessage(ctx iris.Context,value interface{},level string){
-	LogHandle.Write(ctx.Path(),level,persistence.SEND)
+	api.LogHandle.Write(ctx.Path(),level,persistence.SEND)
 	_,_ = ctx.JSON(value)
 }
 
@@ -23,7 +23,7 @@ func sendNormalMessage(ctx iris.Context,value interface{}){
 }
 
 func sendJson(ctx iris.Context,value []byte){
-	LogHandle.Write(ctx.Path(),persistence.INFO,persistence.SEND)
+	api.LogHandle.Write(ctx.Path(),persistence.INFO,persistence.SEND)
 	_,_ = ctx.Write(value)
 }
 
@@ -115,7 +115,7 @@ func Join(ctx iris.Context){
 	sendNormalMessage(ctx,map[string]interface{}{
 		"code":Success,
 	})
-	go StlHandle.Write(msg)
+	go api.StlHandle.Write(msg)
 }
 
 func Database(ctx iris.Context){
@@ -148,7 +148,7 @@ func Flush(ctx iris.Context){
 	sendNormalMessage(ctx,map[string]interface{}{
 		"code":Success,
 	})
-	go AofHandle.Write(persistence.Data{
+	go api.AofHandle.Write(persistence.Data{
 		Type:     "hash",
 		Option:   "flush",
 		Database: num,
@@ -193,7 +193,7 @@ func Set(ctx iris.Context){
 	sendMessage(ctx,map[string]interface{}{
 		"code":Success,
 	},persistence.INFO)
-	go AofHandle.Write(persistence.Data{
+	go api.AofHandle.Write(persistence.Data{
 		Type:     "hash",
 		Option:   "set",
 		Database: num,
@@ -234,7 +234,7 @@ func SetX(ctx iris.Context){
 	sendMessage(ctx,map[string]interface{}{
 		"code":Success,
 	},persistence.INFO)
-	go AofHandle.Write(persistence.Data{
+	go api.AofHandle.Write(persistence.Data{
 		Type:     "hash",
 		Option:   "set_x",
 		Database: num,
@@ -301,7 +301,7 @@ func Delete(ctx iris.Context){
 		"code":Success,
 		"num":sum,
 	},persistence.INFO)
-	go AofHandle.Write(persistence.Data{
+	go api.AofHandle.Write(persistence.Data{
 		Type:     "hash",
 		Option:   "delete",
 		Database: num,
@@ -364,7 +364,7 @@ func Pex(ctx iris.Context){
 	sendMessage(ctx,map[string]interface{}{
 		"code":Success,
 	},persistence.INFO)
-	go AofHandle.Write(persistence.Data{
+	go api.AofHandle.Write(persistence.Data{
 		Type:     "hash",
 		Option:   "pex",
 		Database: num,
@@ -391,7 +391,7 @@ func PexTo(ctx iris.Context){
 	sendMessage(ctx,map[string]interface{}{
 		"code":Success,
 	},persistence.INFO)
-	go AofHandle.Write(persistence.Data{
+	go api.AofHandle.Write(persistence.Data{
 		Type:     "hash",
 		Option:   "pex_to",
 		Database: num,
@@ -460,7 +460,7 @@ func Rename(ctx iris.Context){
 	sendMessage(ctx,map[string]interface{}{
 		"code":Success,
 	},persistence.INFO)
-	go AofHandle.Write(persistence.Data{
+	go api.AofHandle.Write(persistence.Data{
 		Type:     "hash",
 		Option:   "rename",
 		Database: num,
@@ -490,7 +490,7 @@ func RenameX(ctx iris.Context){
 	sendMessage(ctx,map[string]interface{}{
 		"code":Success,
 	},persistence.INFO)
-	go AofHandle.Write(persistence.Data{
+	go api.AofHandle.Write(persistence.Data{
 		Type:     "hash",
 		Option:   "rename_x",
 		Database: num,
@@ -571,7 +571,7 @@ func StlApi(ctx iris.Context){
 		case api.OptionCode_DELETE:
 			base.Del([]string{msg.Key})
 		}
-		go AofHandle.Write(persistence.Data{
+		go api.AofHandle.Write(persistence.Data{
 			Type:     serviceName,
 			Option:   apiName,
 			Database: num,

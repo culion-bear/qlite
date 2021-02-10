@@ -119,8 +119,8 @@ func (handle *stlServiceInfo) Restore(){
 	if err != nil || flag.GetOk(){
 		return
 	}
-	fHandle := persistence.NewAofRestoreHandle(AofPath)
-	l,err := fHandle.GetList(handle.name)
+	AofHandle.Flush()
+	l,err := AofHandle.Restore(handle.name)
 	if err != nil{
 		fmt.Printf("(%s)[%s]数据库文件读取失败：%s\n",handle.name,handle.url,err.Error())
 		return

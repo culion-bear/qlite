@@ -3,6 +3,7 @@ package api
 import (
 	"errors"
 	"qlite/localTime"
+	"qlite/persistence"
 	"sync"
 )
 
@@ -35,6 +36,10 @@ type stlServiceInfo struct {
 
 var servers = make(map[string]*stlServiceInfo)
 
-var AofPath string
-
 var lTime =localTime.InitTime()
+
+var(
+	AofHandle *persistence.AofManager
+	LogHandle *persistence.LogManager
+	StlHandle *persistence.StlManager
+)

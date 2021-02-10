@@ -2,7 +2,7 @@
 # QLite [[English Document](./README_EN.md)]
 
 ![](https://img.shields.io/badge/go-V1.14.3-brightgreen.svg)
-![](https://img.shields.io/badge/release-v2.2.3-blue.svg)
+![](https://img.shields.io/badge/release-v2.2.4-blue.svg)
 
 QLite 是基于微服务的 NewSQL 型数据库系统，与传统的一体化数据库不同，该系统将本该内置的多种数据结构（STL）拆分成多个服务模块，每个模块都是独立的一个节点，每个节点都与其主网关进行连接，从而形成分布式存储结构。
 
@@ -16,6 +16,12 @@ QLite 主要存储方式为KV存储，主网关内置Hash结构，如同关系�
 QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集成版，效果皆不是很理想，该版本为分布式版本，采用HTTP作为接口交互协议，将信息处理完全交给了应用层，在损失了一定的性能的前提下提高了扩展性和复用性，更方便从业人员进行数据处理。
 
 ## Change Log
+
+### V 2.2.4
+- 新年前的最后一次更新
+- 新增以守护进程的方式启动程序
+- 新增子进程向主进程发送信号的操作
+- 新增QLite初始化功能
 
 ### V 2.2.3
 - 修复了一些bug
@@ -35,10 +41,6 @@ QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集�
 - 优化了服务连接模块
 - 当网关关闭时会自动清空其他服务模块的缓存数据，防止再次开启时垃圾数据过多的情况
 
-### V 2.1.1
-- 解决了服务模块重连失败但未报错的BUG
-- 优化了网关启动时服务连接操作，将连接失败时是否重连的选择权交给了使用者，而不是直接取消启动
-
 ## Feature
 
 - 插件化集成：一种数据结构为一个模块，可随意注册至网关
@@ -52,26 +54,36 @@ QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集�
 
 ## Install
 
-[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.3/qlite-linux-amd64)
+[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite-linux-amd64)
 
-[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.3/qlite-linux-arm64)
-
-[windows-2.0.1-BETA](https://github.com/culion-bear/qlite/releases/download/v2.0.1-beta/qlite-windows.exe)
+[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite-linux-arm64)
 
 ## Usage
 
 ```shell script
-windows
-qlite.exe -f [yaml path]
-```
+[get version]
+./qlite -v
 
-```shell script
-linux
-chmod 777 qlite
+[get help]
+./qlite -h
+
+[start qlite]
 ./qlite -f [yaml path]
+
+[init qlite](run as root)
+./qlite -i
+
+[run as daemon]
+./qlite -d
+
+[stop qlite]
+./qlite -s stop
+
+[reload qlite]
+./qlite -s reload
 ```
 
-[[click to download yaml file](./qlite.yaml)]
+[[click to download yaml file](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite.yaml)]
 
 ## Related Efforts
 
@@ -96,9 +108,9 @@ chmod 777 qlite
 - 优化/未完成的功能
     - [√] 服务节点的多模块划分功能，主网关将携带密匙访问服务，这样多网关就能访问同一个服务节点而不造成数据混乱
     - [√] 加密的服务节点，在主网关join时初始化密码，在每次访问时携带，及Token
-    - 具有守护进程的QLite
-    - 子进程启动，关闭，重启父进程
-    - 当服务节点崩溃时内置节点数据丢失的问题
+    - [√] 具有守护进程的QLite
+    - [√] 子进程启动，关闭，重启父进程
+    - [√] 当服务节点崩溃时内置节点数据丢失的问题
 - 其他
     - Docker一键部署
 

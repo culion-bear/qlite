@@ -99,13 +99,13 @@ func (handle *stlServiceInfo) restart() {
 			handle.handle = NewStlClient(conn)
 			_,err = handle.handle.Ping(context.Background(),&Null{})
 			if err == nil{
-				fmt.Printf("(%s)[%s]第%d次重连成功\n",handle.name,handle.url,sum)
+				fmt.Printf("(%s)[%s]reconnect success - %d\n",handle.name,handle.url,sum)
 				handle.Restore()
 				go handle.toHealth()
 				return
 			}
 		}
-		fmt.Printf("(%s)[%s]第%d次重连失败...\n",handle.name,handle.url,sum)
+		fmt.Printf("(%s)[%s]reconnect failed - %d\n",handle.name,handle.url,sum)
 		time.Sleep(time.Second*5)
 	}
 }
@@ -122,7 +122,7 @@ func (handle *stlServiceInfo) Restore(){
 	AofHandle.Flush()
 	l,err := AofHandle.Restore(handle.name)
 	if err != nil{
-		fmt.Printf("(%s)[%s]数据库文件读取失败：%s\n",handle.name,handle.url,err.Error())
+		fmt.Printf("(%s)[%s]database file was read failed：%s\n",handle.name,handle.url,err.Error())
 		return
 	}
 	for _,v := range l{

@@ -29,13 +29,8 @@ message apiList{
   repeated apiDescription list  = 1;
 }
 
-message apiInfo{
-  bool isWriting  = 1;
-  int32 type      = 2;
-}
-
 message apiMap{
-  map<string, apiInfo> api = 1;
+  map<string, int32> api = 1;
 }
 
 message pendingMessage{

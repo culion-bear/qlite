@@ -518,12 +518,12 @@ func StlApi(ctx iris.Context){
 		sendError(ctx,ErrService,err.Error())
 		return
 	}
-	info,err := service.GetApiInfo(apiName)
+	info,err := service.GetType(apiName)
 	if err != nil{
 		sendError(ctx,ErrService,err.Error())
 		return
 	}
-	if info.GetType() != api.STL{
+	if info != api.STL{
 		sendError(ctx,ErrService,api.ErrApiType.Error())
 		return
 	}
@@ -534,12 +534,7 @@ func StlApi(ctx iris.Context){
 		return
 	}
 	id, err = base.GetNodeID(msg.Key)
-	if err != nil{
-		if !info.GetIsWriting(){
-			sendError(ctx,ErrService,err.Error())
-			return
-		}
-	}else{
+	if err == nil{
 		if t,_ := base.GetNodeType(msg.Key);t != serviceName{
 			sendError(ctx,ErrService,api.ErrServiceType.Error())
 			return
@@ -599,12 +594,12 @@ func AlgApi(ctx iris.Context){
 		sendError(ctx,ErrService,err.Error())
 		return
 	}
-	info,err := service.GetApiInfo(apiName)
+	info,err := service.GetType(apiName)
 	if err != nil{
 		sendError(ctx,ErrService,err.Error())
 		return
 	}
-	if info.GetType() != api.ALG{
+	if info != api.ALG{
 		sendError(ctx,ErrService,api.ErrApiType.Error())
 		return
 	}

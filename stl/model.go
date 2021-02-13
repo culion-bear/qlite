@@ -28,7 +28,7 @@ type stlServiceInfo struct {
 	name		string
 	handle		StlClient
 	isOrderly	bool
-	apiMap		map[string]*ApiInfo
+	apiMap		map[string]int32
 	token		string
 	flag		bool
 	mu			sync.RWMutex

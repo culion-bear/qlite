@@ -18,6 +18,10 @@ QLite before release to the lot has experienced two versions, respectively is TC
 
 ## Change Log
 
+### V 2.2.5
+
+- Fixed Bug
+
 ### V 2.2.4
 
 - Last update before New Year

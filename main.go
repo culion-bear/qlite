@@ -102,7 +102,7 @@ func run(){
 }
 
 func main(){
-	setVersion("V 2.2.4")
+	setVersion("V 2.2.5")
 	fmt.Println(logo)
 	run()
 }

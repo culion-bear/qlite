@@ -184,20 +184,12 @@ func (handle *stlServiceInfo) IsExists(key string) bool{
 	return flag
 }
 
-func (handle *stlServiceInfo) IsWriting(key string) bool{
-	k,flag := handle.apiMap[key]
+func (handle *stlServiceInfo) GetType(key string) (int32,error){
+	v,flag := handle.apiMap[key]
 	if !flag{
-		return false
+		return -1,ErrApiNotExit
 	}
-	return k.GetIsWriting()
-}
-
-func (handle *stlServiceInfo) GetApiInfo(key string) (ApiInfo,error){
-	k,flag := handle.apiMap[key]
-	if !flag{
-		return ApiInfo{},ErrApiNotExit
-	}
-	return *k,nil
+	return v,nil
 }
 
 func (handle *stlServiceInfo) GetApiDescriptionList() ([]*ApiDescription,error){

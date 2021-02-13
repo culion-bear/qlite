@@ -3,7 +3,7 @@
 > from YouDao translate
 
 ![](https://img.shields.io/badge/go-V1.14.3-brightgreen.svg)
-![](https://img.shields.io/badge/release-v2.2.4-blue.svg)
+![](https://img.shields.io/badge/release-v2.2.5-blue.svg)
 
 QLite is a NewSQL database system based on micro-services. Different from the traditional integrated database, this system divides the built-in multiple data structures (STL) into multiple service modules. Each module is an independent node, and each node is connected with its main gateway, thus forming a distributed storage structure.
 
@@ -74,9 +74,9 @@ QLite before release to the lot has experienced two versions, respectively is TC
 
 ## Install
 
-[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite-linux-amd64)
+[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.5/qlite-linux-amd64)
 
-[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite-linux-arm64)
+[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.5/qlite-linux-arm64)
 
 ## Usage
 
@@ -103,7 +103,7 @@ QLite before release to the lot has experienced two versions, respectively is TC
 ./qlite -s reload
 ```
 
-[[click to download yaml file](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite.yaml)]
+[[click to download yaml file](https://github.com/culion-bear/qlite/releases/download/v2.2.5/qlite.yaml)]
 
 ## Related Efforts
 

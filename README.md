@@ -2,7 +2,7 @@
 # QLite [[English Document](./README_EN.md)]
 
 ![](https://img.shields.io/badge/go-V1.14.3-brightgreen.svg)
-![](https://img.shields.io/badge/release-v2.2.4-blue.svg)
+![](https://img.shields.io/badge/release-v2.2.5-blue.svg)
 
 QLite 是基于微服务的 NewSQL 型数据库系统，与传统的一体化数据库不同，该系统将本该内置的多种数据结构（STL）拆分成多个服务模块，每个模块都是独立的一个节点，每个节点都与其主网关进行连接，从而形成分布式存储结构。
 
@@ -57,9 +57,9 @@ QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集�
 
 ## Install
 
-[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite-linux-amd64)
+[linux-amd64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.5/qlite-linux-amd64)
 
-[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite-linux-arm64)
+[linux-arm64-latest](https://github.com/culion-bear/qlite/releases/download/v2.2.5/qlite-linux-arm64)
 
 ## Usage
 
@@ -86,7 +86,7 @@ QLite 在发布至GitHub前已经经历了两个版本，分别是TCP版和集�
 ./qlite -s reload
 ```
 
-[[click to download yaml file](https://github.com/culion-bear/qlite/releases/download/v2.2.4/qlite.yaml)]
+[[click to download yaml file](https://github.com/culion-bear/qlite/releases/download/v2.2.5/qlite.yaml)]
 
 ## Related Efforts
 

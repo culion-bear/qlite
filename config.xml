@@ -1,9 +1,0 @@
-<config>
-	<ip>127.0.0.1</ip>
-	<port>5792</port>
-	<persistence>/etc/qlite/persistence</persistence>
-	<plugins>/etc/qlite/plugins</plugins>
-	<pid>/etc/qlite/pid</pid>
-	<interval>30</interval>
-	<password>admin</password>
-</config>

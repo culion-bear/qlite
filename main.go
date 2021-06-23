@@ -5,5 +5,5 @@ import (
 )
 
 func main(){
-	cmd.Cmd()
+	cmd.Cmd("V4.0.1")
 }

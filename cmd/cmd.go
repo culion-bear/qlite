@@ -24,7 +24,7 @@ var(
 var version = "V4.0.0"
 
 func init(){
-	flag.StringVar(&f, "f", "F://project//golang//qLite//V4//sev//config.xml", "config file path")
+	flag.StringVar(&f, "f", "/etc/qlite/config.xml", "config file path")
 	flag.StringVar(&s, "s", "", "send signal to qlite process: [stop,reload]")
 	flag.StringVar(&u, "u", "http://127.0.0.1","set config download url in init")
 	flag.BoolVar(&h, "h", false, "show help")
@@ -33,7 +33,8 @@ func init(){
 	flag.BoolVar(&d, "d", false, "to `daemon`")
 }
 
-func Cmd(){
+func Cmd(v string){
+	version = v
 	flag.Parse()
 	showInfo()
 	if !isRoot(){

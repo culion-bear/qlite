@@ -5,7 +5,7 @@
 ![](https://img.shields.io/badge/release-v4.0.1-blue.svg)
 ![](https://img.shields.io/badge/type-NewSQL-yellow.svg)
 
-QLite是一款可插件化扩展的NewSQL型数据库系统，与其他的数据库不同，该系统可根据开发者需要来自定义插件扩展数据库的功能
+QLite是一款可插件化扩展的NoSQL型数据库系统，与其他的数据库不同，该系统可根据开发者需要来自定义插件扩展数据库的功能
 
 ## 背景
 
